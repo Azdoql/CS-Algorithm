@@ -1,0 +1,51 @@
+import java.util.Scanner;
+
+//堆排序，小根堆
+public class HeapSort {
+
+	static void heapAdjust(int[] array, int parent, int length) {
+	    int temp = array[parent]; //保存当前父节点
+	    int child = 2 * parent + 1; //先获得左孩子，因为根节点从0开始，所以+1
+	    while (child < length) {
+	        //如果有右孩子结点，并且右孩子结点的值大于左孩子结点，则选取右孩子结点
+	        if (child + 1 < length && array[child] < array[child + 1])
+	            child++;
+	        //如果父结点的值已经大于孩子结点的值，则直接结束
+	        if (temp >= array[child])
+	            break;
+	        //否则把孩子结点的值赋给父结点
+	        array[parent] = array[child];
+	        //选取孩子结点的左孩子结点,继续向下筛选
+	        parent = child;
+	        child = 2 * child + 1;
+	    }
+	    array[parent] = temp;//将temp值放到最终的位置
+	}
+ 
+	static void heapSort(int[] list) {
+	    // 循环建立初始堆。从最后一个非叶子结点从下至上，从右至左调整结构
+	    for (int i = list.length/2-1; i >= 0; i--)
+	        heapAdjust(list, i, list.length);
+	    // 进行n-1次循环，完成排序
+	    for (int i = list.length - 1; i > 0; i--) {
+	        // 最后一个元素和第一元素进行交换
+	        int temp = list[i];//当前最后一个
+	        list[i] = list[0];
+	        list[0] = temp;
+	        // 筛选 R[0] 结点，得到i-1个结点的堆
+	        heapAdjust(list, 0, i);
+	    }
+	}
+	
+	public static void main(String[] args) {
+		Scanner in = new Scanner(System.in);
+		int n = in.nextInt();
+		int[] arr = new int[n];
+		for(int i=0;i<n;i++)
+			arr[i] = in.nextInt();		
+
+		heapSort(arr);	
+		for(int num:arr)
+			System.out.print(num+" ");
+	}
+}
