@@ -1,0 +1,38 @@
+输入为非空字符串且只包含数字 1 和 0。
+
+示例 1:
+输入: a = "11", b = "1"
+输出: "100"
+示例 2:
+输入: a = "1010", b = "1011"
+输出: "10101"
+
+
+class Solution {
+
+    public String addBinary(String a, String b) {
+        int l1 = a.length(), l2 = b.length();
+        int l;
+        if(l1>l2)
+            l =l1;
+        else
+            l = l2;
+        char[] ch = new char[l+1];
+        int flag = 0;
+        for(int i=0;i<=l;i++){
+            char a1 = i < l1 ? a.charAt(l1-1-i) : '0';
+            char b1 = i < l2 ? b.charAt(l2-1-i) : '0';
+            //char字符型数字自动转成int，他们的ascii码值恰好相差48，'0'的ascii码是48 
+            int sum = a1 - '0' + b1 - '0' + flag;
+            ch[l+1-i-1] = (char)(sum%2 + '0');
+            flag = sum / 2;
+        }
+        String str = ch[0] == '0' ? new String(ch,1,l) : new String(ch);
+        return str;
+    }
+}
+
+
+
+//本题注意：如果转换为int类型，容易溢出
+//重点：char、int和String之间的巧妙转换
